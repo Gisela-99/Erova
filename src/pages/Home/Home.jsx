@@ -1,6 +1,6 @@
 const Home = () => (
   <div>
-    <h1>Armario</h1>
+    <h1>Armario Digital</h1>
   </div>
 )
 

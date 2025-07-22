@@ -1,11 +1,8 @@
-import React from 'react'
+import { useUserContext } from '../../providers/UserProvider';
 
-function UserInfo() {
-  return (
-    <div>
-      Userinfo
-    </div>
-  )
+const UserInfo = () => {
+  const { user } = useUserContext();
+  return (<p>{user?.username}</p>);
 }
 
-export default UserInfo
+export default UserInfo;
