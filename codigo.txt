@@ -1,1 +1,2 @@
-hdoweghf
+
+git config --global user.email "giselacarballour@gmail.com"
