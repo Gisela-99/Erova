@@ -1,12 +1,22 @@
-import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, doc, setDoc } from "./firebase";
+import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, doc, setDoc, db } from "./config";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
-export const signUp = async (email, password) => {
+export const signUp = async ({ email, password, name, age, nickname }) => {
   try {
+    console.log('------Registro-', email, password)
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     // sendEmailVerification(userCredential.user);
     const user = userCredential.user;
+    console.log(33333333, user)
     const docRef = doc(db, 'users', user.uid);
-    await setDoc(docRef, {});
+    await setDoc(docRef, {
+      email,
+      name,
+      age,
+      nickname,
+      createdAt: new Date()
+    });
+    console.log(11111111111111)
     return user.uid;
   } catch (err) {
     return err.message;
@@ -15,12 +25,20 @@ export const signUp = async (email, password) => {
 
 export const signIn = async (email, password) => {
   try {
+    console.log('------Iniciar Sesión--', email, password)
     const result = await signInWithEmailAndPassword(auth, email, password);
     return result.user.uid;
   } catch (err) {
     console.log('Ha habido un error:', err);
     return err.message;
   }
+}
+
+export const loginWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider).then(result => {
+    return result.user;
+  });
 }
 
 export const getCurrentUserId = async () => await auth.currentUser?.uid;
