@@ -5,6 +5,8 @@ import {
   signIn
 } from '../../services/auth'
 
+import './Login.styles.css'
+
 const Login = () => {
   const { setUser } = useUserContext()
   const [isRegistering, setIsRegistering] = useState(false)
@@ -55,11 +57,11 @@ const Login = () => {
     <div>
       <div>
 
-        <h1> {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}</h1>
+        <h2> {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}</h2>
 
         {isRegistering ? (
           <>
-            <div>
+            <div className="input-group">
               <input
                 type='text'
                 placeholder=''
@@ -70,7 +72,7 @@ const Login = () => {
               <label>Nombre</label>
             </div>
 
-            <div>
+            <div className="input-group">
               <input
                 type='text'
                 placeholder=''
@@ -80,17 +82,18 @@ const Login = () => {
               />
               <label>Nickname</label>
             </div>
-            <div>
+            <div className="input-group">
               <input
                 type='number'
                 placeholder=''
                 value={formData.age}
                 onChange={e => setFormData({ ...formData, age: e.target.value })}
+                min={18}
                 required
               />
               <label>Edad</label>
             </div>
-            <div>
+            <div className="input-group">
               <input
                 type='email'
                 placeholder=''
@@ -100,7 +103,7 @@ const Login = () => {
               />
               <label>Email</label>
             </div>
-            <div>
+            <div className="input-group">
               <input
                 type='password'
                 placeholder=''
@@ -113,7 +116,7 @@ const Login = () => {
           </>
         ) : (
           <>
-            <div>
+            <div className="input-group">
               <input
                 type='email'
                 placeholder=''
@@ -123,7 +126,7 @@ const Login = () => {
               />
               <label>Email</label>
             </div>
-            <div>
+            <div className="input-group">
               <input
                 type='password'
                 placeholder=''
