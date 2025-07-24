@@ -1,18 +1,22 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Layout from '../components/Layout';
+import Preferences from '../pages/Preferences';
+import ProfileDeatil from '../pages/ProfileDetail';
+import Error404 from '../pages/Error404'
 
 
 const Router = () => (
-  <BrowserRouter>
-    <Layout>
-      <Routes>
-        <Route index element={<Home />} />
-        {/* <Route path="/page2" element={<Page2 />} /> */}
-        <Route path="*" element={<div>404</div>} />
-      </Routes>
-    </Layout>
-  </BrowserRouter>
+  // <BrowserRouter>
+  <Layout>
+    <Routes>
+      <Route index element={<Home />} />
+      <Route path='/preferences' element={<Preferences />} />
+      <Route path='/profile-datail' element={<ProfileDeatil />} />
+      <Route path="*" element={<Error404 />} />
+    </Routes>
+  </Layout>
+  // </BrowserRouter> 
 );
 
 export default Router;

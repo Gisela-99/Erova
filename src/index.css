@@ -2,6 +2,7 @@
   --color-Primary-Black: #1D1B20;
   --color-Primary-LightPurple: #A793E0;
   --color-Primary-BrightGray: #EAE7F2;
+  --color-Primary-BrightGrey: #D9D9D9;
 
   --color-Secondary-Black-1: #4A494D;
   --color-Secondary-Black-2: #777679;
@@ -23,7 +24,7 @@
 }
 
 body {
-  background-color: var(--color-Primary-LightPurple);
+  background-color: var(--color-Primary-BrightGrey);
   font-family: var(--font-secondary);
   font-size: 16px;
   font-style: normal;
@@ -62,5 +63,3 @@ h3 {
   font-weight: 600;
   line-height: normal;
 }
-
-button {}

@@ -1,14 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FcGoogle } from "react-icons/fc";
 import { useUserContext } from '../../providers/UserProvider';
 import {
   signUp,
-  signIn
+  signIn,
+  loginWithGoogle
 } from '../../services/auth'
-
 import './Login.styles.css'
 
 const Login = () => {
   const { setUser } = useUserContext()
+  const navigate = useNavigate()
   const [isRegistering, setIsRegistering] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -30,6 +33,7 @@ const Login = () => {
     try {
       const user = await signIn(formData.email, formData.password)
       setUser({ uid: user.uid, email: user.email })
+      navigate('/preferences')
     } catch (err) {
       setError(err.message || 'error al inicio')
     }
@@ -46,18 +50,46 @@ const Login = () => {
     try {
       const userId = await signUp(formData)
       setUser({ uid: userId, email: formData.email })
+      navigate('/preferences')
     } catch (err) {
       setError(err.message || 'Error al registro')
     }
 
   }
 
+  const handleGoogleLogin = async () => {
+    try {
+      const { user, isNewUser } = await loginWithGoogle()
+      setUser({ uid: user.uid, email: user.email })
+      if (isNewUser) {
+        console.log('Nuevo usuario:', user.displayName)
+        navigate('/preferences')
+      } else {
+        navigate('/Error404')
+        console.log('Hubo un error')
+      }
+    } catch (err) {
+      setError(err.message || 'Error al iniciar sesión con Google')
+    }
+  }
+
 
   return (
     <div>
-      <div>
+      <div className='container-login'>
 
-        <h2> {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}</h2>
+        {/* <h2> {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}</h2> */}
+        <div className='toggle-button-wrapper'>
+          <div className={`toggle-button ${isRegistering ? 'register' : 'login'}`}>
+            <div className='slider'></div>
+            <button
+              className={!isRegistering ? 'active' : ''}
+              onClick={() => setIsRegistering(false)}> Entrar</button>
+            <button
+              className={!isRegistering ? 'active' : ''}
+              onClick={() => setIsRegistering(true)}>Registrarse</button>
+          </div>
+        </div>
 
         {isRegistering ? (
           <>
@@ -118,13 +150,13 @@ const Login = () => {
           <>
             <div className="input-group">
               <input
-                type='email'
+                type='text'
                 placeholder=''
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 required
               />
-              <label>Email</label>
+              <label>Introduce tu correo</label>
             </div>
             <div className="input-group">
               <input
@@ -134,7 +166,7 @@ const Login = () => {
                 onChange={e => setFormData({ ...formData, password: e.target.value })}
                 required
               />
-              <label>Contraseña</label>
+              <label>Introduce tu contraseña</label>
             </div>
           </>
         )}
@@ -142,20 +174,11 @@ const Login = () => {
 
         {error && <div> {error} </div>}
 
-        {isRegistering ? (<button onClick={handleSignUp}>Registrarse</button>) : <button onClick={handleSignIn}>Iniciar Sesión</button>}
-
-
-        <button
-          onClick={() => {
-            setIsRegistering(!isRegistering);
-            setError('');
-          }}
-        >
-          {isRegistering
-            ? '¿Ya tienes cuenta? Inicia sesión'
-            : '¿No tienes cuenta? Regístrate'}
-        </button>
-
+        {isRegistering ? (<button className="btn-descubreEstilo" onClick={handleSignUp}>¡Descubre tu estilo!</button>) : <button className="btn-descubreEstilo" onClick={handleSignIn}>¡Descubre tu estilo!</button>}
+        <div>
+          <p>o entra con</p>
+          <button className='btn-redesSociales' onClick={handleGoogleLogin}> <FcGoogle fontFamily='32px' /> </button>
+        </div>
 
 
       </div>
