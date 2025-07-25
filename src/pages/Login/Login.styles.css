@@ -1,5 +1,6 @@
 .input-group {
   position: relative;
+  text-align: center;
 }
 
 .input-group input {
@@ -9,12 +10,22 @@
   align-self: stretch;
   border-radius: 24.286px;
   background: var(--Eerie-MediumGrey, rgba(29, 27, 32, 0.60));
+  margin-bottom: 5px;
+  color: var(--Bright-Grey, #D9D9D9);
+  text-align: center;
+
+  /* Body Small */
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  padding: 18px 20px;
 }
 
 .input-group label {
   position: absolute;
   top: 50%;
-  left: 12px;
+  left: 84px;
   transform: translateY(-50%);
   /* background-color: white; */
   padding: 0 4px;
@@ -27,7 +38,7 @@
 .input-group input:not(:placeholder-shown)+label {
   top: 6px;
   font-size: 12px;
-  color: #1c1c1d;
+  color: white;
 }
 
 .btn-redesSociales {
@@ -62,7 +73,8 @@ input[type=number]::-webkit-outer-spin-button {
 .toggle-button-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  /* margin-bottom: 30px; */
+  /* background-color: yellow; *//
 }
 
 .toggle-button {
@@ -87,6 +99,7 @@ input[type=number]::-webkit-outer-spin-button {
   position: relative;
   z-index: 1;
   transition: color 0.3s ease-in-out;
+
 }
 
 .toggle-button button.active {
@@ -112,6 +125,15 @@ input[type=number]::-webkit-outer-spin-button {
   transform: translateX(100%);
 }
 
+.toggle-button-wrapper .login{
+  margin-top: 300px;
+}
+
+.toggle-button-wrapper .register {
+  margin-top: 145px;
+}
+
+
 
 /***** Botón descubre tu estilo *****/
 .btn-descubreEstilo {
@@ -124,5 +146,37 @@ input[type=number]::-webkit-outer-spin-button {
   border-radius: 24.286px;
   background: var(--Eerie-MediumGrey, rgba(29, 27, 32, 0.60));
   color: #F7F5FC;
+  margin-bottom: 30px;
 
+}
+
+/**** Fondo login register ****/
+.fondo-login{
+    padding: 10px;  
+    /* background-color: #B9A8E6;  */
+  
+}
+.fondo-registro{
+  padding: 10px;
+  /* background-color: #CABEED; */
+}
+
+/***fondo imagne**/
+.fondo-image{
+  background-color: #A793E0;
+  border-radius: 0 0 30px 30px;
+  width: 360px;
+  height: 607px;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+
+
+.container-redes, .container-btn {
+  text-align: center;
+}
+
+.fondo-login, .fondo-registro{
+  margin:30px 0;
 }

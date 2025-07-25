@@ -78,104 +78,112 @@ const Login = () => {
     <div>
       <div className='container-login'>
 
-        {/* <h2> {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}</h2> */}
-        <div className='toggle-button-wrapper'>
-          <div className={`toggle-button ${isRegistering ? 'register' : 'login'}`}>
-            <div className='slider'></div>
-            <button
-              className={!isRegistering ? 'active' : ''}
-              onClick={() => setIsRegistering(false)}> Entrar</button>
-            <button
-              className={!isRegistering ? 'active' : ''}
-              onClick={() => setIsRegistering(true)}>Registrarse</button>
+        <div className='fondo-image'>
+          <div className='toggle-button-wrapper'>
+            <div className={`toggle-button ${isRegistering ? 'register' : 'login'}`}>
+              <div className='slider'></div>
+              <button
+                className={!isRegistering ? 'active' : ''}
+                onClick={() => setIsRegistering(false)}> Entrar</button>
+              <button
+                className={!isRegistering ? 'active' : ''}
+                onClick={() => setIsRegistering(true)}>Registrarse</button>
+            </div>
           </div>
+          {isRegistering ? (
+            <>
+            <div className='fondo-registro'>
+                <div className="input-group">
+                  <input
+                    type='text'
+                    placeholder=''
+                    value={formData.name}
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                    required
+                  />
+                  <label>Nombre</label>
+                </div>
+                <div className="input-group">
+                  <input
+                    type='text'
+                    placeholder=''
+                    value={formData.nickname}
+                    onChange={e => setFormData({ ...formData, nickname: e.target.value })}
+                    required
+                  />
+                  <label>Nickname</label>
+                </div>
+                <div className="input-group">
+                  <input
+                    type='number'
+                    placeholder=''
+                    value={formData.age}
+                    onChange={e => setFormData({ ...formData, age: e.target.value })}
+                    min={18}
+                    required
+                  />
+                  <label>DD/MM/YYYY</label>
+                </div>
+                <div className="input-group">
+                  <input
+                    type='email'
+                    placeholder=''
+                    value={formData.email}
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
+                    required
+                  />
+                  <label>Email</label>
+                </div>
+                <div className="input-group">
+                  <input
+                    type='password'
+                    placeholder=''
+                    value={formData.password}
+                    onChange={e => setFormData({ ...formData, password: e.target.value })}
+                    required
+                  />
+                  <label>Contraseña</label>
+                </div>
+                <div className='container-btn'>
+                  <button className="btn-descubreEstilo" onClick={handleSignUp}>¡Descubre tu estilo!</button>
+                  </div>
+              </div>
+            </>
+          ) : (
+            <>
+            <div className='fondo-login'>
+                <div className="input-group">
+                  <input
+                    type='text'
+                    placeholder=''
+                    value={formData.email}
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
+                    required
+                  />
+                  <label>Introduce tu correo</label>
+                </div>
+                <div className="input-group">
+                  <input
+                    type='password'
+                    placeholder=''
+                    value={formData.password}
+                    onChange={e => setFormData({ ...formData, password: e.target.value })}
+                    required
+                  />
+                  <label>Introduce tu contraseña</label>
+                </div>
+                <div className='container-btn'>
+                  <button className="btn-descubreEstilo" onClick={handleSignIn}>¡Descubre tu estilo!</button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-
-        {isRegistering ? (
-          <>
-            <div className="input-group">
-              <input
-                type='text'
-                placeholder=''
-                value={formData.name}
-                onChange={e => setFormData({ ...formData, name: e.target.value })}
-                required
-              />
-              <label>Nombre</label>
-            </div>
-
-            <div className="input-group">
-              <input
-                type='text'
-                placeholder=''
-                value={formData.nickname}
-                onChange={e => setFormData({ ...formData, nickname: e.target.value })}
-                required
-              />
-              <label>Nickname</label>
-            </div>
-            <div className="input-group">
-              <input
-                type='number'
-                placeholder=''
-                value={formData.age}
-                onChange={e => setFormData({ ...formData, age: e.target.value })}
-                min={18}
-                required
-              />
-              <label>Edad</label>
-            </div>
-            <div className="input-group">
-              <input
-                type='email'
-                placeholder=''
-                value={formData.email}
-                onChange={e => setFormData({ ...formData, email: e.target.value })}
-                required
-              />
-              <label>Email</label>
-            </div>
-            <div className="input-group">
-              <input
-                type='password'
-                placeholder=''
-                value={formData.password}
-                onChange={e => setFormData({ ...formData, password: e.target.value })}
-                required
-              />
-              <label>Contraseña</label>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="input-group">
-              <input
-                type='text'
-                placeholder=''
-                value={formData.email}
-                onChange={e => setFormData({ ...formData, email: e.target.value })}
-                required
-              />
-              <label>Introduce tu correo</label>
-            </div>
-            <div className="input-group">
-              <input
-                type='password'
-                placeholder=''
-                value={formData.password}
-                onChange={e => setFormData({ ...formData, password: e.target.value })}
-                required
-              />
-              <label>Introduce tu contraseña</label>
-            </div>
-          </>
-        )}
 
 
         {error && <div> {error} </div>}
 
-        {isRegistering ? (<button className="btn-descubreEstilo" onClick={handleSignUp}>¡Descubre tu estilo!</button>) : <button className="btn-descubreEstilo" onClick={handleSignIn}>¡Descubre tu estilo!</button>}
-        <div>
+        <div className='container-redes'>
           <p>o entra con</p>
           <button className='btn-redesSociales' onClick={handleGoogleLogin}> <FcGoogle fontFamily='32px' /> </button>
         </div>
