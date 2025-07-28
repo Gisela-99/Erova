@@ -1,19 +1,24 @@
-import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import './Splash.style.css'
+
 
 function Splash() {
+  const navigate = useNavigate()
   return (
     <div>
       <div className='fondo'>
         <div className='logo'></div>
       </div>
-      <div>
-        <h3>Slogan - </h3>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae unde nostrum excepturi, architecto et sed dolore labore dolor rerum eaque sequi, reiciendis at dolores maxime neque, autem facere atque consequatur!</p>
+      <div className='text-splash'>
+        <h3>Slogan - ipsum dolor sit amet</h3>
+        <p className='p-splash'>Worem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan.</p>
       </div>
-      <button className='btn-splash'>Inicia Sesión</button>
-      <a href="#"> Explora la app</a>
+      <button className='btn-splash' onClick={() => navigate('/login')}
+      >Inicia Sesión</button>
+      <p className='link-home'>Explora la app</p>
     </div>
   )
 }
+
 
 export default Splash
