@@ -6,6 +6,7 @@ import ProfileDeatil from '../pages/ProfileDetail';
 import Login from '../pages/Login';
 import Splash from '../pages/Splash';
 import Error404 from '../pages/Error404'
+import UserMeasurents from '../pages/UserMeasurements';
 
 
 
@@ -19,6 +20,7 @@ const Router = () => (
       <Route path='/login' element={<Login />} />
       <Route path='/preferences' element={<Preferences />} />
       <Route path='/profile-datail' element={<ProfileDeatil />} />
+      <Route path='/user-measurements' element={<UserMeasurents />} />
 
       <Route path="*" element={<Error404 />} />
     </Routes>
