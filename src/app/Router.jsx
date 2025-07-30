@@ -1,12 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from '../pages/Home';
 import Layout from '../components/Layout';
-import Preferences from '../pages/Preferences';
-import ProfileDeatil from '../pages/ProfileDetail';
-import Login from '../pages/Login';
+import Error404 from '../pages/Error404';
 import Splash from '../pages/Splash';
-import Error404 from '../pages/Error404'
+import Login from '../pages/Login';
+import Preferences from '../pages/Preferences';
+import ProfileDetail from '../pages/ProfileDetail';
 import UserMeasurents from '../pages/UserMeasurements';
+import Home from '../pages/Home';
+import Profile from '../pages/Profile'
+import Calendary from '../pages/Calendary';
+import AddGarment from '../pages/AddGarment';
+import Comunidad from '../pages/Community';
+
 
 
 
@@ -19,8 +24,14 @@ const Router = () => (
       <Route path='/splash' element={<Splash />} />
       <Route path='/login' element={<Login />} />
       <Route path='/preferences' element={<Preferences />} />
-      <Route path='/profile-datail' element={<ProfileDeatil />} />
+      <Route path='/profile-detail' element={<ProfileDetail />} />
       <Route path='/user-measurements' element={<UserMeasurents />} />
+
+      {/** HOME NAVBAR */}
+      <Route path='/profile' element={<Profile />} />
+      <Route path='/calendary' element={<Calendary />} />
+      <Route path='/add-garment' element={<AddGarment />} />
+      <Route path='/Comunidad' element={<Comunidad />} />
 
       <Route path="*" element={<Error404 />} />
     </Routes>

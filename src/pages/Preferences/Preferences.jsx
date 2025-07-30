@@ -27,7 +27,7 @@ const Preferences = () => {
       for (const nombre of selectedPrefs) {
         await addEstiloToUser({ nombre })
       }
-      navigate('/profile-datail', { state: { preferences: selectedPrefs } })
+      navigate('/profile-detail', { state: { preferences: selectedPrefs } })
     } catch (err) {
       setError('Error al procesar las preferencias. Por favor, inténtalo de nuevo.')
       console.error('Error en addEstiloToUser:', err)

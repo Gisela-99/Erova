@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import Navbar from '../Navbar/Navbar';
 
 const Layout = ({ children }) => {
+  const location = useLocation();
+
+  const showNavBar = location.pathname === '/';
   return (
     <div>
-      <nav>
-
-      </nav>
       <main>{children}</main>
+      {showNavBar && <Navbar />}
     </div>
   )
 }
