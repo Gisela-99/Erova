@@ -1,30 +1,37 @@
-import { Route, Routes } from 'react-router-dom';
-import Home from '../pages/Home';
-import Layout from '../components/Layout';
-import Preferences from '../pages/Preferences';
-import ProfileDeatil from '../pages/ProfileDetail';
-import Login from '../pages/Login';
-import Splash from '../pages/Splash';
-import Error404 from '../pages/Error404'
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Home from '../pages/Home/Home';
+import Layout from '../components/Layout/Layout';
+import Preferences from '../pages/Preferences/Preferences';
+import ProfileDetail from '../pages/ProfileDetail/ProfileDetail';
+import Error404 from '../pages/Error404/Error404';
+import Armario from '../pages/Armario/Armario';
+import Calendario from '../pages/Calendario/Calendario';
+import Perfil from '../pages/Perfil/Perfil';
+import AgregarPrenda from '../pages/AgregarPrenda/AgregarPrenda';
+import CrearOutfit from '../pages/CrearOutfit/CrearOutfit';
 
+// Router receives user prop from App.jsx
+const Router = ({ user }) => {
+  // If user is not available, redirect to login
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-
-
-const Router = () => (
-  // <BrowserRouter>
-  <Layout>
+  return (
     <Routes>
-      <Route index element={<Home />} />
-      <Route path='/splash' element={<Splash />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/preferences' element={<Preferences />} />
-      <Route path='/profile-datail' element={<ProfileDeatil />} />
-
-      <Route path="*" element={<Error404 />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="armario" element={<Armario />} />
+        <Route path="calendario" element={<Calendario />} />
+        <Route path="perfil" element={<Perfil />} />
+        <Route path="preferences" element={<Preferences />} />
+        <Route path="profile" element={<ProfileDetail />} />
+        <Route path="agregar-prenda" element={<AgregarPrenda />} />
+        <Route path="crear-outfit" element={<CrearOutfit />} />
+        <Route path="*" element={<Error404 />} />
+      </Route>
     </Routes>
-  </Layout>
-  // </BrowserRouter>
-);
-
+  );
+};
 
 export default Router;
