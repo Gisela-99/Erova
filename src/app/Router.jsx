@@ -1,6 +1,11 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+// src/app/Router.jsx
+
+import { Route, Routes } from 'react-router-dom';
+
+// Importa todas tus páginas
 import Home from '../pages/Home/Home';
-import Layout from '../components/Layout/Layout';
+// AQUÍ ESTÁ LA LÍNEA CRÍTICA Y CORREGIDA:
+import Layout from '../shared/components/Layout'; 
 import Preferences from '../pages/Preferences/Preferences';
 import ProfileDetail from '../pages/ProfileDetail/ProfileDetail';
 import Error404 from '../pages/Error404/Error404';
@@ -9,17 +14,27 @@ import Calendario from '../pages/Calendario/Calendario';
 import Perfil from '../pages/Perfil/Perfil';
 import AgregarPrenda from '../pages/AgregarPrenda/AgregarPrenda';
 import CrearOutfit from '../pages/CrearOutfit/CrearOutfit';
+import Login from '../pages/Login';
+import Splash from '../pages/Splash';
 
-// Router receives user prop from App.jsx
-const Router = ({ user }) => {
-  // If user is not available, redirect to login
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+import ProtectedRoute from '../shared/components/ProtectedRoute/ProtectedRoute.jsx';
 
+const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      {/* --- RUTAS PÚBLICAS --- */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/splash" element={<Splash />} />
+
+      {/* --- RUTAS PROTEGIDAS --- */}
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Home />} />
         <Route path="armario" element={<Armario />} />
         <Route path="calendario" element={<Calendario />} />
@@ -28,8 +43,10 @@ const Router = ({ user }) => {
         <Route path="profile" element={<ProfileDetail />} />
         <Route path="agregar-prenda" element={<AgregarPrenda />} />
         <Route path="crear-outfit" element={<CrearOutfit />} />
-        <Route path="*" element={<Error404 />} />
       </Route>
+
+      {/* --- RUTA CATCH-ALL --- */}
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };
