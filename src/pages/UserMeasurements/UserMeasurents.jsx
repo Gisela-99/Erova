@@ -40,42 +40,59 @@ function UserMeasurents() {
     <div>
       <h1>Medidas del usuario</h1>
       <p>Por favor, introduce tus medidas para determinar tu tipo de cuerpo.</p>
-      <div className='group-input'>
-        <label>
-          Género:
-          <select name="genero" value={formData.genero} onChange={e => setFormData({ ...formData, genero: e.target.value })}>
+      <div className='measurement-row'>
+        <div className='measurement-label '>
+          <label htmlFor="genero">Género:</label>
+        </div>
+        <div className='measurement-select'>
+          <select
+            name="genero" 
+            id="genero"
+            value={formData.genero}
+            onChange={e => setFormData({ ...formData, genero: e.target.value
+            })}
+          >
             <option value="mujer">Mujer</option>
             <option value="hombre">Hombre</option>
           </select>
-        </label>
       </div>
 
-      <div className='group-input'>
+      </div>
+
+      <div className='measurement-row'>
+        <span>Busto</span>
         <input
           type="number"
           name='busto'
-          placeholder='Busto'
+          id='busto'
           value={formData.busto}
-          onChange={e => setFormData({ ...formData, busto: e.target.value })} />
+          onChange={e => setFormData({ ...formData, busto: e.target.value })}
+        />
+        <div className="unit-label">cm</div>
       </div>
 
-      <div className='group-input'>
+      <div className='measurement-row'>
+        <span>Cintura</span>
         <input
           type="number"
           name='cintura'
-          placeholder='Cintura'
+          id='cintura'
           value={formData.cintura}
           onChange={e => setFormData({ ...formData, cintura: e.target.value })}
         />
+        <div className="unit-label">cm</div>
       </div>
 
-      <div className='group-input'>
+      <div className='measurement-row'>
+        <span>Caderas</span>
         <input
-          type='number'
+          type="number"
           name='cadera'
-          placeholder='Cadera'
+          id='cadera'
           value={formData.cadera}
-          onChange={e => setFormData({ ...formData, cadera: e.target.value })} />
+          onChange={e => setFormData({ ...formData, cadera: e.target.value })}
+        />
+        <div className="unit-label">cm</div>
       </div>
 
       <button onClick={calcularTipoCuerpo}>Calcular el tipo de cuerpo</button>
@@ -91,4 +108,4 @@ function UserMeasurents() {
   )
 }
 
-export default UserMeasurents
+export default UserMeasurents;

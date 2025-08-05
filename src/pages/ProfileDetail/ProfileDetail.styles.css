@@ -1,4 +1,215 @@
-.group-input {
-  margin-bottom: 10px;
-  display: flex
+.profile-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 1.5rem;
+  font-family: 'Manrope';
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+.info-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.gender-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.gender-toggle button {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  background: #e4e4e4;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.gender-toggle button.active {
+  background: #000;
+  color: white;
+}
+
+.body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+}
+
+.body-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s ease, transform 0.2s ease;
+}
+
+.body-card:hover {
+  transform: translateY(-3px);
+}
+
+.body-card.selected {
+  border: 2px solid #000;
+}
+
+.image-placeholder {
+  height: 120px;
+  background: repeating-conic-gradient(#e4e4e4 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+}
+
+.body-label {
+  background: #444;
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.confirm-button {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 20px;
+  background: #ccc;
+  color: white;
+  font-size: 1rem;
+  cursor: not-allowed;
+  transition: background 0.3s ease;
+}
+
+.confirm-button:not(:disabled) {
+  background: #000;
+  cursor: pointer;
+}
+
+
+.info-icon {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* tooltip-bubble: el pequeño globo que aparece en hover */
+.tooltip-bubble {
+  position: absolute;
+  top: 36px; /* debajo del icono */
+  right: -10px;
+  background: #e7e7e7;
+  color: #111;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  width: 220px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  z-index: 40;
+  transform-origin: top right;
+}
+
+/* la "cola" triangular del tooltip */
+.tooltip-bubble .tooltip-tail {
+  position: absolute;
+  top: -8px;
+  right: 16px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #e7e7e7;
+}
+
+/* dentro del tooltip: texto y link */
+.tooltip-text {
+  font-size: 0.9rem;
+  line-height: 1.1;
+}
+
+.tooltip-link {
+  background: none;
+  border: none;
+  color: #1f6feb;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* ----------- MODAL styles ----------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: #f3f3f3;
+  width: min(420px, 95%);
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.modal-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+.modal-body p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.btn-secondary {
+  background: none;
+  border: 1px solid #aaa;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #A793E0;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
 }

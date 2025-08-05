@@ -132,7 +132,7 @@ body {
 }
 
 
-.toggle-button button.active {
+.toggle-button button.active  {
   color: #1c1c1d;
 }
 
@@ -160,14 +160,14 @@ body {
 
 
 .toggle-button-wrapper .login {
-  margin-top: 300px;
+  margin-top: 250px;
 }
 
 
 
 
 .toggle-button-wrapper .register {
-  margin-top: 90px;
+  margin-top: 70px;
 }
 
 

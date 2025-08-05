@@ -1,0 +1,97 @@
+.preferences-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.preferences-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.preferences-subtitle {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.preferences-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.preference-card {
+  background: #f5f5f5;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.preference-card:hover {
+  transform: scale(1.02);
+}
+
+.preference-card.selected {
+  border-color: #a793e0;
+  background: #ece5ff;
+}
+
+.preference-image {
+  height: 90px; 
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preference-image img {
+  max-width: 100%;
+  max-height: 100%; 
+  /* object-fit: contain; */
+}
+
+.preference-name {
+  background: #666;
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.preferences-error {
+  color: red;
+  margin-top: 1rem;
+}
+
+.preferences-button {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 2rem;
+  background: #cbb3ff;
+  color: #222;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.preferences-button:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.preferences-back {
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.9rem;
+  cursor: pointer;
+}

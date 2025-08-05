@@ -21,13 +21,11 @@ const Preferences = () => {
   const handleContinue = async () => {
     setLoading(true)
     setError(null)
-    console.log('Continuar con preferencias:', selectedPrefs)
     try {
-      console.log('Selected Preferences:', selectedPrefs)
       for (const nombre of selectedPrefs) {
         await addEstiloToUser({ nombre })
       }
-      navigate('/profile-detail', { state: { preferences: selectedPrefs } })
+      navigate('/')
     } catch (err) {
       setError('Error al procesar las preferencias. Por favor, inténtalo de nuevo.')
       console.error('Error en addEstiloToUser:', err)
@@ -36,61 +34,49 @@ const Preferences = () => {
     }
   }
 
-
   return (
-    <div style={{ maxWidth: 600, margin: 'auto' }}>
-      <h2>Elige tus preferencias de vestir</h2>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '1rem'
-        }}
-      >
-        {preferencesList.map(({ nombre }) => (
+    <div className="preferences-container">
+      <h1 className="preferences-title">¡Decide tu estilo!</h1>
+      <p className="preferences-subtitle">
+        Destaca entre la multitud con un estilo único.
+      </p>
+
+      <div className="preferences-grid">
+        {preferencesList.map(({ nombre, imagen}) => (
           <div
             key={nombre}
+            className={`preference-card ${
+              selectedPrefs.includes(nombre) ? 'selected' : ''
+            }`}
             onClick={() => togglePreference(nombre)}
-            className='preference-item'
-            style={{
-              padding: '1rem',
-              border: selectedPrefs.includes(nombre) ? '3px solid ##A793E0' : '1px solid #ccc',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              userSelect: 'none',
-              textAlign: 'center',
-              backgroundColor: selectedPrefs.includes(nombre) ? '#ccadca' : 'white',
-              transition: 'all 0.3s ease'
-            }}
           >
-            {nombre}
+            <div className="preference-image">
+              {imagen && <img src={imagen} alt={nombre} />}
+            </div>
+            <div className="preference-name">{nombre}</div>
           </div>
         ))}
       </div>
-      {error && (
-        <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{error}</p>
-      )}
 
+      {error && <p className="preferences-error">{error}</p>}
 
       <button
+        className="preferences-button"
         onClick={handleContinue}
         disabled={selectedPrefs.length === 0}
-        style={{
-          marginTop: '2rem',
-          padding: '0.8rem 1.5rem',
-          fontSize: '1rem',
-          backgroundColor: selectedPrefs.length === 0 ? '#ccc' : '#A793E0',
-          color: selectedPrefs.length === 0 ? '#666' : '#242425',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: selectedPrefs.length === 0 ? 'not-allowed' : 'pointer'
-        }}
       >
-        {loading ? 'Cargando...' : 'Continuar'}
+        {loading ? 'Cargando...' : 'Empecemos'}
+      </button>
+
+      <button
+        type="button"
+        className="preferences-back"
+        onClick={() => navigate(-1)}
+      >
+        Volver atrás
       </button>
     </div>
   )
 }
 
-
-export default Preferences;
+export default Preferences

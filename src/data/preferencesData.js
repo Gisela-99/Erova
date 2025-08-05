@@ -1,7 +1,7 @@
 const preferencesList = [
   {
     nombre: 'Casual',
-    imagen: '/img/causal.jpg',
+    imagen: '/img/casual.jpg',
     description: 'Estilo relajado y cómodo, ideal para el día a día.'
   },
   {

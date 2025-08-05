@@ -1,0 +1,75 @@
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Ensure the layout takes up at least the full viewport height */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Main content area should take up available space and not be hidden behind the navbar */
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  padding-bottom: 80px; /* Space for the fixed navbar */
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ensure content doesn't exceed viewport width on mobile */
+.main-content > * {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0.75rem;
+    padding-bottom: 70px;
+    width: 100vw; /* Ensure full viewport width */
+    max-width: 100%;
+  }
+  
+  /* Prevent horizontal scrolling */
+  body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+  }
+}
+
+/* Ensure the navbar stays at the bottom on mobile */
+@media (max-height: 600px) {
+  .app-layout {
+    min-height: 100%;
+    height: auto;
+  }
+}
+
+/* Fix for iOS viewport units */
+@supports (-webkit-touch-callout: none) {
+  .app-layout {
+    min-height: -webkit-fill-available;
+  }
+}
