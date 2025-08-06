@@ -16,7 +16,7 @@ body {
 .container-login {
   display: flex;
   width: 100%;
-  max-width: 360px;
+  /* max-width: 360px; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -62,7 +62,7 @@ body {
 .input-group label {
   position: absolute;
   top: 50%;
-  left: 40px;
+  left: 15%;
   transform: translateY(-50%);
   color: var(--label-color);
   transition: 0.2s ease;
@@ -109,8 +109,9 @@ body {
 .toggle-button {
   position: relative;
   display: flex;
-  width: 100%;
-  max-width: 250px;
+  width: 60%;
+  /* max-width: 250px; */
+  /* height: 56px; */
   background-color: #444;
   border-radius: 999px;
   padding: 4px;
@@ -133,28 +134,28 @@ body {
 
 
 .toggle-button button.active  {
-  color: #1c1c1d;
+  color: #313136;
 }
 
 
-.toggle-button .slider {
+.toggle-button .slider-login-registro {
   position: absolute;
   top: 4px;
   bottom: 4px;
   width: 48%;
-  background-color: #eee;
+  background-color: #eee; 
   border-radius: 999px;
   transition: transform 0.3s ease-in-out;
   z-index: 0;
 }
 
 
-.toggle-button.login .slider {
+.toggle-button.login .slider-login-registro {
   transform: translateX(0%);
 }
 
 
-.toggle-button.register .slider {
+.toggle-button.register .slider-login-registro {
   transform: translateX(100%);
 }
 

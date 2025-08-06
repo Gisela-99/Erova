@@ -315,7 +315,7 @@ body {
   background-color: white;
   transition: var(--transition);
   border-radius: 50%;
-}
+} 
 
 input:checked + .slider {
   background-color: var(--primary);

@@ -1,4 +1,4 @@
-import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, doc, setDoc, db } from "./config";
+import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, doc, setDoc, db , getDoc} from "./config";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
 export const signUp = async ({ email, password, name, age, nickname }) => {
@@ -34,12 +34,35 @@ export const signIn = async (email, password) => {
   }
 }
 
-export const loginWithGoogle = () => {
+export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider).then(result => {
-    return result.user;
-  });
-}
+
+  try {
+    console.log('------Iniciar Sesión con Google--')
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const userDocRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    const isNewUser = !userDoc.exists();
+
+    if (isNewUser) {
+      await setDoc(userDocRef, {
+        email: user.email,
+        name: user.displayName || '',
+        createdAt: new Date(),
+      });
+    }
+
+    return { user, isNewUser };
+  } catch (err) {
+    console.error('Error en loginWithGoogle:', err);
+    throw err; 
+  }
+};
+
+
 
 export const getCurrentUserId = async () => await auth.currentUser?.uid;
 export const logout = async () => await signOut(auth);

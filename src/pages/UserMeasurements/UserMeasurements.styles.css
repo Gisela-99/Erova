@@ -61,11 +61,11 @@ select {
   border: none;
 }
 
-button {
+.btn-userMeasurents{
   display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  border-radius: 30px;
+  margin: 3% auto;
+  padding: 10px 20px; 
+  border-radius: 30px; 
   border: none;
   background-color: #A793E0;
   color: #000;

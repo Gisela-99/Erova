@@ -64,22 +64,21 @@ const Login = () => {
     }
   }
 
-
   const handleGoogleLogin = async () => {
-    try {
-      const { user, isNewUser } = await loginWithGoogle()
-      setUser({ uid: user.uid, email: user.email })
-      if (isNewUser) {
-        console.log('Nuevo usuario:', user.displayName)
-        //navigate('/preferences')
-        navigate('/profile-detail')
-      } else {
-        navigate('/') // Redirigir a la home si el usuario ya existe
-      }
-    } catch (err) {
-      setError(err.message || 'Error al iniciar sesión con Google')
+  try {
+    const { user, isNewUser } = await loginWithGoogle();
+    setUser({ uid: user.uid, email: user.email });
+
+    if (isNewUser) {
+      navigate('/profile-detail');
+    } else {
+      navigate('/');
     }
+  } catch (err) {
+    setError(err.message || 'Error al iniciar sesión con Google');
   }
+};
+
 
   return (
     <div>
@@ -89,7 +88,7 @@ const Login = () => {
         <div className='fondo-image'>
           <div className='toggle-button-wrapper'>
             <div className={`toggle-button ${isRegistering ? 'register' : 'login'}`}>
-              <div className='slider'></div>
+              <div className='slider-login-registro'></div>
               <button
                 className={!isRegistering ? 'active' : ''}
                 onClick={() => setIsRegistering(false)}> Entrar</button>
@@ -102,7 +101,7 @@ const Login = () => {
             <>
               <div className='fondo-registro'>
                 {/* ... tu JSX de registro ... */}
-                <div className="input-group">
+                <div className="input-group animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
                   <input
                     type='text'
                     placeholder=''

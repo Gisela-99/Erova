@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom"
-import { bodyTypes } from '../../data/dataBody'
+import { bodyTypes } from "../../data/dataBody" 
 import './UserMeasurements.styles.css'
 
-function UserMeasurents() {
+function UserMeasurements() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     genero: 'mujer',
@@ -13,50 +13,92 @@ function UserMeasurents() {
   })
 
   const [result, setResult] = useState('')
+
   const calcularTipoCuerpo = () => {
-    const busto = parseInt(formData.busto)
-    const cintura = parseInt(formData.cintura)
-    const cadera = parseInt(formData.cadera)
-    const genero = formData.genero
+  const busto = parseFloat(formData.busto);
+  const cintura = parseFloat(formData.cintura);
+  const cadera = parseFloat(formData.cadera);
+  const genero = formData.genero.toLowerCase();
 
-    if (isNaN(busto) || isNaN(cintura) || isNaN(cadera)) {
-      setResult('Por favor, introduce todas las medidas correctamente.')
-      return
-    }
+  if ([busto, cintura, cadera].some(v => isNaN(v) || v <= 0)) {
+    setResult('Por favor, introduce todas las medidas correctamente.');
+    return;
+  }
 
-    const tipos = bodyTypes[genero.toLocaleLowerCase()]
-    const tipoEncontrado = tipos.find((tipo) =>
-      busto >= tipo.busto[0] && busto <= tipo.busto[1] &&
-      cintura >= tipo.cintura[0] && cintura <= tipo.cintura[1] &&
-      cadera >= tipo.cadera[0] && cadera <= tipo.cadera[1])
+  let tipo = "";
 
-    if (tipoEncontrado) {
-      setResult(`Tu tipo de cuerpo es: ${tipoEncontrado.tipo}`)
+  // Intentar clasificar por rangos
+  const matchPorRangos = bodyTypes[genero].find(bt =>
+    busto >= bt.busto[0] && busto <= bt.busto[1] &&
+    cintura >= bt.cintura[0] && cintura <= bt.cintura[1] &&
+    cadera >= bt.cadera[0] && cadera <= bt.cadera[1]
+  );
+
+  if (matchPorRangos) {
+    tipo = matchPorRangos.tipo;
+  } else {
+    // Si no encaja, usar proporciones como respaldo
+    const cinturaCadera = cintura / cadera;
+    const bustoCadera = busto / cadera;
+    const bustoCintura = busto / cintura;
+    const caderaBusto = cadera / busto;
+    if (genero === 'mujer') {
+      if (Math.abs(busto - cadera) <= 5 && cinturaCadera < 0.75) {
+        tipo = 'Reloj de arena';
+      } else if (bustoCadera > 1.05 && cinturaCadera >= 0.75) {
+        tipo = 'Triángulo invertido';
+      } else if (caderaBusto > 1.05 && cinturaCadera >= 0.75) {
+        tipo = 'Pera';
+      } else if (bustoCintura < 0.85 && cintura >= cadera) {
+        tipo = 'Manzana';
+      } else if (Math.abs(busto - cadera) <= 3 && Math.abs(cintura - busto) <= 10) {
+        tipo = 'Rectángulo';
+      } else {
+        tipo = 'No se pudo determinar un tipo exacto.';
+      }
+    } else if (genero === 'hombre') {
+      if (Math.abs(busto - cadera) <= 7 && cinturaCadera < 0.85) {
+        tipo = 'Reloj de arena';
+      } else if (bustoCadera > 1.07 && cintura <= busto) {
+        tipo = 'Triángulo invertido';
+      } else if (caderaBusto > 1.05 && cintura >= busto) {
+        tipo = 'Pera';
+      } else if (cintura >= busto && cintura >= cadera) {
+        tipo = 'Manzana';
+      } else if (Math.abs(busto - cadera) <= 5 && Math.abs(cintura - busto) <= 10) {
+        tipo = 'Rectángulo';
+      } else {
+        tipo = 'No se pudo determinar un tipo exacto.';
+      }
     } else {
-      setResult('No se encontró un tipo de cuerpo que coincida con tus medidas.')
+      tipo = 'Género no válido';
     }
   }
+
+  setResult(`Tu tipo de cuerpo es: ${tipo}`);
+}
+  
+
   return (
     <div>
       <h1>Medidas del usuario</h1>
       <p>Por favor, introduce tus medidas para determinar tu tipo de cuerpo.</p>
+
       <div className='measurement-row'>
-        <div className='measurement-label '>
+        <div className='measurement-label'>
           <label htmlFor="genero">Género:</label>
         </div>
         <div className='measurement-select'>
           <select
-            name="genero" 
+            name="genero"
             id="genero"
             value={formData.genero}
-            onChange={e => setFormData({ ...formData, genero: e.target.value
-            })}
+            onChange={e => setFormData({ ...formData, genero: e.target.value })}
           >
             <option value="mujer">Mujer</option>
             <option value="hombre">Hombre</option>
           </select>
-      </div>
-
+        </div>
       </div>
 
       <div className='measurement-row'>
@@ -95,7 +137,8 @@ function UserMeasurents() {
         <div className="unit-label">cm</div>
       </div>
 
-      <button onClick={calcularTipoCuerpo}>Calcular el tipo de cuerpo</button>
+      <button onClick={calcularTipoCuerpo} className='btn-userMeasurents'>Calcular el tipo de cuerpo</button>
+
       {result && (
         <div className='resultado'>
           <h2>Resultado:</h2>
@@ -103,9 +146,9 @@ function UserMeasurents() {
         </div>
       )}
 
-      <button onClick={() => navigate('/')}>Siguiente</button>
+      <button onClick={() => navigate('/')} className='btn-userMeasurents'>Siguiente</button>
     </div>
   )
 }
 
-export default UserMeasurents;
+export default UserMeasurements
