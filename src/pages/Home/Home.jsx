@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FaTshirt, FaCalendarPlus } from 'react-icons/fa';
+import PrimaryButton from '../../shared/components/Buttons/Primary/Primary';
 import './Home.styles.css';
 
 const Home = ({ user }) => {
@@ -28,6 +29,7 @@ const Home = ({ user }) => {
             <FaTshirt className="button-icon" />
             <span>Añadir prenda</span>
           </button>
+
           <button 
             className="action-button create-outfit"
             onClick={() => navigate('/crear-outfit')}
@@ -35,7 +37,16 @@ const Home = ({ user }) => {
             <FaCalendarPlus className="button-icon" />
             <span>Crear outfit</span>
           </button>
+          <PrimaryButton 
+            onClick={() => navigate('/preferences')} 
+            className="action-button preferences"
+          >
+            <FaTshirt className="button-icon" />
+            <span>Lista de preferencias</span>  
+
+          </PrimaryButton>
         </div>
+
         
         <section className="welcome-section">
           <p>Comienza a organizar tu guardarropa de manera inteligente.</p>

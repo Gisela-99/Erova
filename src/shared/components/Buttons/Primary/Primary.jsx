@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import "./PrimaryButton.css";
 
-function Primary() {
+function PrimaryButton({ children, onClick, type = "button", disabled = false }) {
   return (
-    <div>Primary</div>
-  )
+    <button
+      className="primary-btn"
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
 }
 
-export default Primary
+export default PrimaryButton;

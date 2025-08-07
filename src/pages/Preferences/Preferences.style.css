@@ -42,7 +42,7 @@
 }
 
 .preference-image {
-  height: 90px; 
+  /* height: 90px;  */
   background: #ddd;
   display: flex;
   align-items: center;
