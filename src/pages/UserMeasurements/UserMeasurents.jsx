@@ -4,7 +4,7 @@ import { bodyTypes } from "../../data/dataBody";
 import './UserMeasurements.styles.css'; 
 
 
-const BodyShapeDetector = () => {
+const UserMeasurements = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     genero: 'mujer',
@@ -136,4 +136,4 @@ const BodyShapeDetector = () => {
   );
 };
 
-export default BodyShapeDetector;
+export default UserMeasurements;

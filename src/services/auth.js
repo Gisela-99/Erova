@@ -19,7 +19,7 @@ export const signUp = async ({ email, password, name, age, nickname }) => {
     console.log(11111111111111)
     return user.uid;
   } catch (err) {
-    return err.message;
+    return err.code;
   }
 }
 
@@ -30,7 +30,7 @@ export const signIn = async (email, password) => {
     return result.user.uid;
   } catch (err) {
     console.log('Ha habido un error:', err);
-    return err.message;
+    return err.code;
   }
 }
 

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { FaTshirt, FaCalendarPlus } from 'react-icons/fa';
-import PrimaryButton from '../../shared/components/Buttons/Primary/Primary';
 import './Home.styles.css';
 
 const Home = ({ user }) => {
