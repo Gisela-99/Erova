@@ -1,12 +1,17 @@
 
 body {
-  background-color: #000;
-  color: white;
   margin: 0;
-  padding: 2rem;
+  padding: 0;
 }
 
-h1, p {
+h2{
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+ p {
   text-align: center;
   margin: 0.8rem;
 }
@@ -85,4 +90,58 @@ select {
   font-size: 18px;
   font-weight: bold;
   color: #000;
+}
+
+/* Quitar las flechas en Chrome, Edge, Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Quitar flechas en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Cambiar color de foco */
+input[type="number"]:focus {
+  outline: none; /* quitar el outline por defecto */
+  border: 2px solid #A793E0; /* borde lila */
+  box-shadow: 0 0 5px #A793E0; /* sombra lila */
+  background-color: #f5f0ff; /* opcional, fondo lila claro */
+}
+
+/* Select: bordes redondeados más marcados y color de fondo */
+select {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: none;
+  background-color: #d9d9d9;
+  font-size: 16px;
+  cursor: pointer;
+  color: #333;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Select: foco con borde y sombra lila */
+select:focus {
+  outline: none;
+  border: 2px solid #A793E0;
+  box-shadow: 0 0 5px #A793E0;
+  background-color: #f5f0ff;
+}
+
+/* Opciones de select: estilo limitado, pero podemos cambiar color de fondo y texto */
+select option {
+  background-color: white;
+  color: #333;
+  padding: 8px;
+}
+
+/* Opciones hover (al pasar ratón) - solo en algunos navegadores */
+select option:hover {
+  background-color: #A793E0;
+  color: white;
+  cursor: pointer;
 }

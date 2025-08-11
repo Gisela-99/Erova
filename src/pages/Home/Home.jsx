@@ -37,14 +37,6 @@ const Home = ({ user }) => {
             <FaCalendarPlus className="button-icon" />
             <span>Crear outfit</span>
           </button>
-          <PrimaryButton 
-            onClick={() => navigate('/preferences')} 
-            className="action-button preferences"
-          >
-            <FaTshirt className="button-icon" />
-            <span>Lista de preferencias</span>  
-
-          </PrimaryButton>
         </div>
 
         

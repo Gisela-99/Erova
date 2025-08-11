@@ -1,5 +1,5 @@
 .profile-container {
-  max-width: 400px;
+  /* max-width: 400px; */
   margin: auto;
   padding: 1.5rem;
   font-family: 'Manrope';
@@ -44,9 +44,13 @@
 
 .body-grid {
   display: grid;
+   margin: 0 auto; 
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   margin-bottom: 2rem;
+  max-width: 400px;
+  text-align: center;
+  justify-content: center;
 
 }
 
@@ -80,7 +84,7 @@
 }
 
 .confirm-button {
-  width: 100%;
+  width: 50%;
   padding: 0.8rem;
   border: none;
   border-radius: 20px;
