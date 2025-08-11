@@ -19,6 +19,7 @@ import Splash from '../pages/Splash';
 
 
 import ProtectedRoute from '../shared/components/ProtectedRoute/ProtectedRoute.jsx';
+import ClasificarPrenda from '../pages/ClasificarPrendas/ClasificarPrendas.jsx';
 
 const Router = () => {
   return (
@@ -48,7 +49,7 @@ const Router = () => {
   
         <Route path="agregar-prenda" element={<AgregarPrenda />} />
         <Route path="crear-outfit" element={<CrearOutfit />} />
-        
+        <Route path='clasificar-prenda' element={<ClasificarPrenda/>}></Route>
         <Route path="comunidad" element={<Comunidad />} />
       </Route>
 

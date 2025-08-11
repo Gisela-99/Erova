@@ -1,23 +1,27 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
 import { uploadImageToCloudinary } from '../../services/cloudinaryService';
+import { addPrendaToUser } from '../../services/prendaService';
+import ClasificarPrenda from '../ClasificarPrendas/ClasificarPrendas';
 import './AgregarPrenda.styles.css';
 
 const AgregarPrenda = () => {
   const navigate = useNavigate();
+  const [step, setStep] = useState(1);
   const [imageUrl, setImageUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [linkUrl, setLinkUrl] = useState('');
+  const fileInputRef = useRef(null);
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     setUploading(true);
+
     try {
       const url = await uploadImageToCloudinary(file);
       setImageUrl(url);
-      console.log('Imagen subida:', url);
+      setStep(3); // Ir a pantalla "Prenda agregada"
     } catch (err) {
       console.error('Error al subir la imagen:', err);
     } finally {
@@ -25,103 +29,124 @@ const AgregarPrenda = () => {
     }
   };
 
+  const handleLinkSubmit = async () => {
+    const trimmed = linkUrl.trim();
+    if (!trimmed) return;
+
+    try {
+      const validUrl = new URL(trimmed);
+
+      if (window.location.protocol === 'https:' && validUrl.protocol === 'http:') {
+        alert('El enlace debe usar HTTPS para mostrarse correctamente.');
+        return;
+      }
+
+      setUploading(true);
+
+      const response = await fetch(validUrl.href);
+      const blob = await response.blob();
+      const file = new File([blob], 'image.jpg', { type: blob.type });
+
+      const url = await uploadImageToCloudinary(file);
+      setImageUrl(url);
+      setStep(3); // Ir a pantalla "Prenda agregada"
+    } catch (err) {
+      console.error('Error al subir la imagen desde link:', err);
+      alert('No se pudo subir la imagen.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleContinuarClasificacion = async () => {
+    try {
+      // Guardamos en Firestore aquí, cuando el usuario decide clasificar
+      await addPrendaToUser({
+        imageUrl,
+        tipo: '',
+        color: '',
+        etiquetas: [],
+        medidas: {}
+      });
+      setStep(4); // Ir a pantalla de clasificación
+    } catch (err) {
+      console.error('Error al guardar prenda:', err);
+    }
+  };
+
   return (
-    <div className="agregar-prenda-container">
-      <header className="page-header">
-        <button 
-          className="back-button"
-          onClick={() => navigate(-1)}
-          aria-label="Volver atrás"
-        >
-          <FaArrowLeft />
-        </button>
-        <h1>Añadir Prenda</h1>
-      </header>
-      
-      <main className="page-content">
-        <div className="upload-area">
-          <div className="upload-placeholder">
-            <div className="upload-icon">📷</div>
-            <p>Arrastra una foto o haz clic para seleccionar</p>
-            
-            {/* Selector oculto + botón estilizado */}
-            <label htmlFor="fileInput" className="select-photo-button">
-              Seleccionar foto
-            </label>
-            <input 
-              type="file" 
-              id="fileInput" 
-              accept="image/*" 
-              onChange={handleImageUpload} 
-              style={{ display: 'none' }} 
+    <div className="onboarding-container">
+      {step === 1 && (
+        <div className="step step-1">
+          <h2>¡Añade tus prendas!</h2>
+          <p>Recuerda tomar fotos claras para que podamos detectar de qué prenda se trata</p>
+          <div className="upload-box" onClick={() => setStep(1.5)}>
+            <span className="plus-icon">+</span>
+          </div>
+          <button className="secondary-btn" onClick={() => navigate('/')}>
+            Ahora no
+          </button>
+        </div>
+      )}
+
+      {step === 1.5 && (
+        <div className="step step-select dark-bg">
+          <button
+            className="square-btn"
+            onClick={() => fileInputRef.current.click()}
+          >
+            <span className="icon">📷</span>
+            <span className="label">Añade una foto</span>
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            style={{ display: 'none' }}
+            onChange={handleImageUpload}
+          />
+
+          <div className="link-section">
+            <input
+              type="url"
+              placeholder="Pega el link de la prenda"
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
             />
-
-            {/* Indicador de carga */}
-            {uploading && <p>Subiendo imagen...</p>}
-
-            {/* Vista previa */}
-            {imageUrl && (
-              <div className="image-preview">
-                <img 
-                  src={imageUrl} 
-                  alt="Preview" 
-                  style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }} 
-                />
-              </div>
-            )}
+            <button onClick={handleLinkSubmit}>Añadir link</button>
           </div>
         </div>
-        
-        <div className="form-section">
-          <div className="form-group">
-            <label htmlFor="categoria">Categoría</label>
-            <select id="categoria" className="form-control">
-              <option value="">Selecciona una categoría</option>
-              <option value="camiseta">Camiseta</option>
-              <option value="pantalon">Pantalón</option>
-              <option value="vestido">Vestido</option>
-              <option value="abrigo">Abrigo</option>
-              <option value="zapatos">Zapatos</option>
-              <option value="accesorio">Accesorio</option>
-            </select>
+      )}
+
+      {step === 3 && (
+        <div className="step step-3">
+          <h2>Prenda agregada!</h2>
+          <p>¡Has agregado tu prenda correctamente!</p>
+          <div className="preview-box">
+            {imageUrl && <img src={imageUrl} alt="Prenda" />}
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="color">Color principal</label>
-            <input 
-              type="color" 
-              id="color" 
-              className="form-control color-picker" 
-              defaultValue="#4a90e2"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="temporada">Temporada</label>
-            <div className="season-tags">
-              <button type="button" className="season-tag">Primavera</button>
-              <button type="button" className="season-tag">Verano</button>
-              <button type="button" className="season-tag">Otoño</button>
-              <button type="button" className="season-tag">Invierno</button>
-            </div>
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="notas">Notas</label>
-            <textarea 
-              id="notas" 
-              className="form-control" 
-              rows="3" 
-              placeholder="Añade alguna nota sobre esta prenda..."
-            ></textarea>
-          </div>
-          
-          <button className="save-button">Guardar prenda</button>
+          <button className="primary-btn" onClick={handleContinuarClasificacion}>
+            Continuar
+          </button>
+          <button className="secondary-btn" onClick={() => navigate('/')}>
+            Volver a inicio
+          </button>
         </div>
-      </main>
+      )}
+
+      {uploading && <p>Subiendo imagen...</p>}
+
+      {step === 4 && (
+        <ClasificarPrenda
+          imageUrl={imageUrl}
+          onSave={() => {
+            navigate('/');
+          }}
+        />
+      )}
     </div>
   );
 };
 
 export default AgregarPrenda;
-
