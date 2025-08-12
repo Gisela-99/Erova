@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { bodyTypes } from "../../data/dataBody";
-import { doc, setDoc, db } from "../../services/config";
-import { getCurrentUserId } from "../../services/auth";
+import { doc, setDoc, db } from "../../config/config.js";
+import { getCurrentUserId } from "../../services/auth.service.js";
 import './ProfileDetail.styles.css';
 
 function ProfileDetail() {

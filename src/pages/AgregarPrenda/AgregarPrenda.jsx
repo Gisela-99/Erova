@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { uploadImageToCloudinary } from '../../services/cloudinaryService';
-import { addPrendaToUser } from '../../services/prendaService';
+import { uploadImage } from '../../services/cloudinary.service';
+import { addGarmentToUser } from '../../services/garment.service';
 import ClasificarPrenda from '../ClasificarPrendas/ClasificarPrendas';
 import './AgregarPrenda.styles.css';
 
@@ -19,7 +19,7 @@ const AgregarPrenda = () => {
     setUploading(true);
 
     try {
-      const url = await uploadImageToCloudinary(file);
+      const url = await uploadImage(file);
       setImageUrl(url);
       setStep(3); // Ir a pantalla "Prenda agregada"
     } catch (err) {
@@ -47,7 +47,7 @@ const AgregarPrenda = () => {
       const blob = await response.blob();
       const file = new File([blob], 'image.jpg', { type: blob.type });
 
-      const url = await uploadImageToCloudinary(file);
+      const url = await uploadImage(file);
       setImageUrl(url);
       setStep(3); // Ir a pantalla "Prenda agregada"
     } catch (err) {
@@ -61,7 +61,7 @@ const AgregarPrenda = () => {
   const handleContinuarClasificacion = async () => {
     try {
       // Guardamos en Firestore aquí, cuando el usuario decide clasificar
-      await addPrendaToUser({
+      await addGarmentToUser({
         imageUrl,
         tipo: '',
         color: '',

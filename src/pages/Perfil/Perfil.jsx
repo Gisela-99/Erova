@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../providers/UserProvider';
-import { logout } from '../../services/auth';
+import { logout } from '../../services/auth.service.js';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../services/config';
+import { db } from '../../config/config.js';
 import { 
   FiEdit2, 
   FiMail, 

@@ -104,7 +104,7 @@
 
 
 import { useState } from 'react';
-import { addPrendaToUser } from '../../services/prendaService';
+import { addGarmentToUser } from '../../services/garment.service';
 import './ClasificarPrendas.style.css';
 
 const ClasificarPrenda = ({ imageUrl, onSave }) => {
@@ -115,7 +115,7 @@ const ClasificarPrenda = ({ imageUrl, onSave }) => {
 
   const handleGuardar = async () => {
     try {
-      await addPrendaToUser({
+      await addGarmentToUser({
         imageUrl,
         tipo,
         color,

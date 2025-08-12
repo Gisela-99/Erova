@@ -7,7 +7,7 @@ import {
   signUp,
   signIn,
   loginWithGoogle
-} from '../../services/auth'
+} from '../../services/auth.service.js'
 import './Login.styles.css'
 
 const Login = () => {

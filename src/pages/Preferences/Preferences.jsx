@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import preferencesList from '../../data/preferencesData'
-import { addEstiloToUser } from '../../services/estilosServices'
+import { addStyleToUser } from '../../services/style.service'
 import './Preferences.style.css'
 
 const Preferences = () => {
@@ -23,12 +23,12 @@ const Preferences = () => {
     setError(null)
     try {
       for (const nombre of selectedPrefs) {
-        await addEstiloToUser({ nombre })
+        await addStyleToUser({ nombre })
       }
       navigate('/')
     } catch (err) {
       setError('Error al procesar las preferencias. Por favor, inténtalo de nuevo.')
-      console.error('Error en addEstiloToUser:', err)
+      console.error('Error en addStyleToUser:', err)
     } finally {
       setLoading(false)
     }
