@@ -70,3 +70,22 @@ export const deleteUser = async (id) => {
   const docRef = doc(db, COLLECTIONS.USERS, id);
   await deleteDoc(docRef);
 };
+
+/**
+ * Actualiza los campos específicos del perfil corporal de un usuario.
+ * Utiliza setDoc con merge para garantizar que no se sobrescriban otros datos del perfil.
+ * @param {string} uid - El ID del usuario.
+ * @param {object} bodyProfileData - Un objeto con { genero, tipoCuerpo, medidasReferencia }.
+ */
+export const updateUserBodyProfile = async (uid, bodyProfileData) => {
+  if (!uid || !bodyProfileData) {
+    throw new Error("El ID de usuario y los datos del perfil corporal son requeridos.");
+  }
+  
+  const userRef = doc(db, COLLECTIONS.USERS, uid);
+  
+  await setDoc(userRef, {
+    ...bodyProfileData,
+    bodyProfileUpdatedAt: new Date() // Usamos un campo específico para esta actualización
+  }, { merge: true }); // 'merge: true' es crucial para no borrar otros datos del usuario
+};

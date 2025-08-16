@@ -1,38 +1,17 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { usePreferences } from './usePreferences'
 import preferencesList from '../../data/preferencesData'
-import { addStyleToUser } from '../../services/style.service'
+import Card from '../../shared/components/Card/Card'
 import './Preferences.style.css'
 
 const Preferences = () => {
-  const [selectedPrefs, setSelectedPrefs] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
-
-  const togglePreference = (pref) => {
-    setSelectedPrefs(prev =>
-      prev.includes(pref)
-        ? prev.filter(p => p !== pref)
-        : [...prev, pref]
-    )
-  }
-
-  const handleContinue = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      for (const nombre of selectedPrefs) {
-        await addStyleToUser({ nombre })
-      }
-      navigate('/')
-    } catch (err) {
-      setError('Error al procesar las preferencias. Por favor, inténtalo de nuevo.')
-      console.error('Error en addStyleToUser:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+   const {
+    selectedPrefs,
+    loading,
+    error,
+    togglePreference,
+    handleContinue,
+    goBack,
+  } = usePreferences();
 
   return (
     <div className="preferences-container">
@@ -42,19 +21,15 @@ const Preferences = () => {
       </p>
 
       <div className="preferences-grid">
-        {preferencesList.map(({ nombre, imagen}) => (
-          <div
-            key={nombre}
-            className={`preference-card ${
-              selectedPrefs.includes(nombre) ? 'selected' : ''
-            }`}
-            onClick={() => togglePreference(nombre)}
-          >
-            <div className="preference-image">
-              {imagen && <img src={imagen} alt={nombre} />}
-            </div>
-            <div className="preference-name">{nombre}</div>
-          </div>
+        {preferencesList.map(({ nombre, imagen }) => (
+            <Card
+              key={nombre}
+              id={nombre} // Pasamos 'nombre' como el identificador único
+              title={nombre}
+              imageUrl={imagen}
+              isSelected={selectedPrefs.includes(nombre)}
+              onClick={togglePreference}
+            />
         ))}
       </div>
 
@@ -71,7 +46,7 @@ const Preferences = () => {
       <button
         type="button"
         className="preferences-back"
-        onClick={() => navigate(-1)}
+        onClick={goBack} 
       >
         Volver atrás
       </button>

@@ -56,22 +56,31 @@ export const signIn = async (email, password) => {
  * Si el usuario es nuevo, crea su perfil en Firestore.
  * @returns {object} Un objeto indicando el éxito o fracaso.
  */
+
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Verificar si ya existe un perfil para este usuario en nuestra base de datos
+    // Variable para saber si el usuario es nuevo
+    let isNewUser = false; 
+
     const userProfile = await getUserById(user.uid);
 
-    // Si no existe, creamos su perfil
     if (!userProfile) {
+      // Marcamos que es un usuario nuevo
+      isNewUser = true; 
       const userProfileData = { email: user.email, name: user.displayName };
       await createUserProfile(user.uid, userProfileData);
     }
 
-    return { success: true, userId: user.uid };
+    // ¡SOLUCIÓN! Devolvemos el objeto `user` completo y el flag `isNewUser`.
+    return { 
+      success: true, 
+      user: { uid: user.uid, email: user.email, displayName: user.displayName },
+      isNewUser: isNewUser 
+    };
   } catch (err) {
     console.error("Error en el login con Google:", err.code);
     return { success: false, error: err.code };

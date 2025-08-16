@@ -1,0 +1,37 @@
+.card {
+  background: #f5f5f5;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card.selected { 
+  border-color: #a793e0;
+  background: #ece5ff;
+}
+
+.card-image-container { 
+  height: 90px;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image-container img { 
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-title { 
+  background: #666;
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}

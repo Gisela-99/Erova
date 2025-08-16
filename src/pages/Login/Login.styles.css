@@ -247,27 +247,3 @@ div[role="alert"],
   margin-top: 10px;
   font-size: 14px;
 }
-
-
-/******** Media Queries ********/
-@media (max-width: 375px) {
-  .fondo-image {
-    padding: 16px;
-  }
-
-
-  .toggle-button {
-    max-width: 220px;
-  }
-
-
-  .btn-descubreEstilo {
-    font-size: 14px;
-    /* padding: 14px 16px; */
-  }
-
-
-  .input-group input {
-    font-size: 12px;
-  }
-}

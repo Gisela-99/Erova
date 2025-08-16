@@ -1,0 +1,61 @@
+/* src/components/common/Modal/Modal.styles.css */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 95%;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.modal-body h3 {
+  font-family: 'Manrope', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.modal-body p {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* Puedes mantener estos estilos de botones aquí o hacerlos más genéricos */
+.modal-actions .btn-primary {
+  background-color: #A793E0;
+  color: rgb(24, 23, 23);
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.modal-actions .btn-secondary {
+  background-color: transparent;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  border-radius: 8px;
+}

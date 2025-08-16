@@ -100,9 +100,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* Quitar flechas en Firefox */
-input[type="number"] {
+/* input[type="number"] {
   -moz-appearance: textfield;
-}
+} */
 
 /* Cambiar color de foco */
 input[type="number"]:focus {

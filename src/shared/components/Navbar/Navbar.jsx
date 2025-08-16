@@ -1,48 +1,23 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NAV_ITEMS } from './navbar.constants';
+import { NavItem } from './NavItem';
 import './Navbar.styles.css';
 
 const Navbar = () => {
+
   return (
     <nav className="navbar">
-      <NavLink 
-        to="/" 
-        className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}
-      >
-        <span className="nav-icon">🏠</span>
-        <span className="nav-label">Inicio</span>
-      </NavLink>
-      
-      <NavLink 
-        to="/armario" 
-        className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}
-      >
-        <span className="nav-icon">👕</span>
-        <span className="nav-label">Armario</span>
-      </NavLink>
-      
-      <NavLink 
-        to="/calendario" 
-        className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}
-      >
-        <span className="nav-icon">📅</span>
-        <span className="nav-label">Calendario</span>
-      </NavLink>
-      <NavLink 
-        to="/comunidad" 
-        className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} >
-
-        <span className="nav-icon">🌐</span>
-        <span className="nav-label">Comunidad</span>
-        </NavLink>
-      
-      <NavLink 
-        to="/perfil" 
-        className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}
-      >
-        <span className="nav-icon">👤</span>
-        <span className="nav-label">Perfil</span>
-      </NavLink>
+      {/* 3. Usamos .map() para recorrer nuestro array de constantes y generar los enlaces */}
+      {NAV_ITEMS.map((item) => (
+        // 2. Por cada item en nuestros datos, renderizamos un componente NavItem.
+        // Le pasamos las propiedades usando sus mismos nombres.
+        <NavItem 
+          key={item.to} 
+          to={item.to} 
+          icon={item.icon} 
+          label={item.label} 
+        />
+      ))}
     </nav>
   );
 };

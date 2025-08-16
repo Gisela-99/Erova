@@ -1,150 +1,103 @@
-import { useState, useRef } from 'react';
+import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { uploadImage } from '../../services/cloudinary.service';
 import { addGarmentToUser } from '../../services/garment.service';
 import ClasificarPrenda from '../ClasificarPrendas/ClasificarPrendas';
+import { useGarmentUpload } from '../../hooks/useGarmentUpload';
+import { InitialStep } from './components/InitialStep';
+import { SelectionStep } from './components/SelectionStep';
+import { SuccessStep } from './components/SuccessStep';
 import './AgregarPrenda.styles.css';
+
+
+// Es una buena práctica definir los pasos como constantes para evitar "números mágicos"
+const STEPS = {
+  INITIAL: 1,
+  SELECT_METHOD: 1.5,
+  SUCCESS: 3,
+  CLASSIFY: 4,
+};
 
 const AgregarPrenda = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [linkUrl, setLinkUrl] = useState('');
-  const fileInputRef = useRef(null);
+  const [step, setStep] = useState(STEPS.INITIAL);
+  // --- PASO 3: El estado para la URL de la imagen se llamará ahora `finalImageUrl`.
+  // Lo usaremos para guardar la URL una vez que el hook nos diga que la subida fue exitosa.
+  const [finalImageUrl, setFinalImageUrl] = useState(null);
 
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    setUploading(true);
+  // +++ PASO 3: Usamos nuestro custom hook.
+  // Le pasamos una función "callback" que se ejecutará solo cuando la subida sea exitosa.
+  const {
+    uploading,
+    error, // Obtenemos el estado de carga y el error desde el hook.
+    handleFileUpload, // Nueva función para subir archivos.
+    handleLinkUpload, // Nueva función para subir desde un link.
+  } = useGarmentUpload((url) => {
+    // Esta es la lógica "onSuccess". Se ejecuta cuando la imagen ya se subió.
+    setFinalImageUrl(url); // Guardamos la URL final.
+    setStep(STEPS.SUCCESS); // Movemos al usuario al siguiente paso.
+  });
 
-    try {
-      const url = await uploadImage(file);
-      setImageUrl(url);
-      setStep(3); // Ir a pantalla "Prenda agregada"
-    } catch (err) {
-      console.error('Error al subir la imagen:', err);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleLinkSubmit = async () => {
-    const trimmed = linkUrl.trim();
-    if (!trimmed) return;
-
-    try {
-      const validUrl = new URL(trimmed);
-
-      if (window.location.protocol === 'https:' && validUrl.protocol === 'http:') {
-        alert('El enlace debe usar HTTPS para mostrarse correctamente.');
-        return;
-      }
-
-      setUploading(true);
-
-      const response = await fetch(validUrl.href);
-      const blob = await response.blob();
-      const file = new File([blob], 'image.jpg', { type: blob.type });
-
-      const url = await uploadImage(file);
-      setImageUrl(url);
-      setStep(3); // Ir a pantalla "Prenda agregada"
-    } catch (err) {
-      console.error('Error al subir la imagen desde link:', err);
-      alert('No se pudo subir la imagen.');
-    } finally {
-      setUploading(false);
-    }
-  };
+  // --- PASO 3: Las funciones handleImageUpload y handleLinkSubmit han sido eliminadas.
+  // Toda esa lógica ahora vive dentro de `useGarmentUpload`.
 
   const handleContinuarClasificacion = async () => {
     try {
-      // Guardamos en Firestore aquí, cuando el usuario decide clasificar
       await addGarmentToUser({
-        imageUrl,
+        imageUrl: finalImageUrl, // Usamos la URL que guardamos.
         tipo: '',
         color: '',
         etiquetas: [],
         medidas: {}
       });
-      setStep(4); // Ir a pantalla de clasificación
+      setStep(STEPS.CLASSIFY);
     } catch (err) {
       console.error('Error al guardar prenda:', err);
     }
   };
 
+   // +++ PASO 5: Creamos una función para renderizar el paso actual de forma limpia
+   const renderCurrentStep = () => {
+    switch (step) {
+      case STEPS.INITIAL:
+        return (
+          <InitialStep
+            onStart={() => setStep(STEPS.SELECT_METHOD)}
+            onSkip={() => navigate('/')}
+          />
+        );
+      case STEPS.SELECT_METHOD:
+        return (
+          <SelectionStep
+            onFileSelected={handleFileUpload}
+            onLinkSubmit={handleLinkUpload}
+          />
+        );
+      case STEPS.SUCCESS:
+        return (
+          <SuccessStep
+            imageUrl={finalImageUrl}
+            onContinue={handleContinuarClasificacion}
+            onGoHome={() => navigate('/')}
+          />
+        );
+      case STEPS.CLASSIFY:
+        // +++ CORRECCIÓN 1: Devolver el componente ClasificarPrenda aquí.
+        return (
+          <ClasificarPrenda
+            imageUrl={finalImageUrl}
+            onSave={() => navigate('/')}
+          />
+        );
+      default:
+        return null;
+    }
+  }; // +++ CORRECCIÓN 2: La función renderCurrentStep se cierra aquí.
+
+  // +++ CORRECCIÓN 3: El return principal del componente va aquí, fuera de la función anterior.
   return (
     <div className="onboarding-container">
-      {step === 1 && (
-        <div className="step step-1">
-          <h2>¡Añade tus prendas!</h2>
-          <p>Recuerda tomar fotos claras para que podamos detectar de qué prenda se trata</p>
-          <div className="upload-box" onClick={() => setStep(1.5)}>
-            <span className="plus-icon">+</span>
-          </div>
-          <button className="secondary-btn" onClick={() => navigate('/')}>
-            Ahora no
-          </button>
-        </div>
-      )}
-
-      {step === 1.5 && (
-        <div className="step step-select dark-bg">
-          <button
-            className="square-btn"
-            onClick={() => fileInputRef.current.click()}
-          >
-            <span className="icon">📷</span>
-            <span className="label">Añade una foto</span>
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            style={{ display: 'none' }}
-            onChange={handleImageUpload}
-          />
-
-          <div className="link-section">
-            <input
-              type="url"
-              placeholder="Pega el link de la prenda"
-              value={linkUrl}
-              onChange={(e) => setLinkUrl(e.target.value)}
-            />
-            <button onClick={handleLinkSubmit}>Añadir link</button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="step step-3">
-          <h2>Prenda agregada!</h2>
-          <p>¡Has agregado tu prenda correctamente!</p>
-          <div className="preview-box">
-            {imageUrl && <img src={imageUrl} alt="Prenda" />}
-          </div>
-          <button className="primary-btn" onClick={handleContinuarClasificacion}>
-            Continuar
-          </button>
-          <button className="secondary-btn" onClick={() => navigate('/')}>
-            Volver a inicio
-          </button>
-        </div>
-      )}
-
-      {uploading && <p>Subiendo imagen...</p>}
-
-      {step === 4 && (
-        <ClasificarPrenda
-          imageUrl={imageUrl}
-          onSave={() => {
-            navigate('/');
-          }}
-        />
-      )}
+      {uploading ? <p>Subiendo imagen...</p> : renderCurrentStep()}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };

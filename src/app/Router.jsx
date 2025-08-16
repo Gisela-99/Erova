@@ -5,8 +5,8 @@ import Home from '../pages/Home/Home';
 // AQUÍ ESTÁ LA LÍNEA CRÍTICA Y CORREGIDA:
 import Layout from '../shared/components/Layout'; 
 import Preferences from '../pages/Preferences/Preferences';
-import UserMeasurents from '../pages/UserMeasurements/UserMeasurents';
-import ProfileDetail from '../pages/ProfileDetail/ProfileDetail';
+import UserMeasurents from '../pages/UserMeasurements/UserMeasurements.jsx';
+import BodyProfileSetup from '../pages/BodyProfileSetup/BodyProfileSetup';
 import Error404 from '../pages/Error404/Error404';
 import Armario from '../pages/Armario/Armario';
 import Calendario from '../pages/Calendario/Calendario';
@@ -44,7 +44,7 @@ const Router = () => {
         <Route path="perfil" element={<Perfil />} />
         <Route path="preferences" element={<Preferences />} />
   
-        <Route path="profile-detail" element={<ProfileDetail />} />
+        <Route path="body-profile" element={<BodyProfileSetup />} />
         <Route path="user-measurements" element={<UserMeasurents />} />
   
         <Route path="agregar-prenda" element={<AgregarPrenda />} />
