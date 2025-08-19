@@ -6,8 +6,9 @@ import {
     createUserWithEmailAndPassword, 
     signOut, 
     GoogleAuthProvider, 
-    signInWithPopup 
-  } from "../config/config.js"; // Asegúrate de que la ruta sea "./config.js" si está en la misma carpeta
+    signInWithPopup, 
+    deleteUser
+  } from "../config/config.js"; 
   
   import { createUserProfile, getUserById } from "./user.service.js";
 
@@ -16,24 +17,47 @@ import {
  * @param {object} userData - Objeto con { email, password, name, age, nickname }.
  * @returns {object} Un objeto indicando el éxito o fracaso: { success: boolean, userId?: string, error?: string }.
  */
-export const signUp = async ({ email, password, name, age, nickname }) => {
+export const signUp = async ({ email, password, name, birthdate, nickname }) => {
+  let userCredential; // La definimos aquí para poder usarla en el catch
+
   try {
-    // 1. Crear el usuario en el servicio de Autenticación de Firebase.
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // 1. Crear el usuario en Authentication.
+    userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // 2. Preparar los datos del perfil para guardarlos en Firestore.
-    const userProfileData = { email, name, age, nickname };
-    
-    // 3. Llamar a nuestro servicio de usuarios para crear el documento del perfil.
+    // 2. Crear el perfil en Firestore.
+    const userProfileData = { email, name, birthdate, nickname };
     await createUserProfile(user.uid, userProfileData);
 
+    // 3. Si todo tiene éxito, devolvemos el resultado.
     return { success: true, userId: user.uid };
+
   } catch (err) {
-    console.error("Error en el registro:", err.code);
-    return { success: false, error: err.code };
+    console.error("Error detallado en el registro:", err);
+
+    // --- LÓGICA DE REVERSIÓN (ROLLBACK) ---
+    // Si el usuario se creó en Auth (paso 1) pero falló Firestore (paso 2),
+    // debemos eliminar el usuario de Auth para evitar datos inconsistentes.
+    if (userCredential && userCredential.user) {
+      try {
+        await deleteUser(userCredential.user);
+        console.log("Usuario de Auth eliminado por fallo en creación de perfil.");
+      } catch (deleteError) {
+        console.error("Error crítico: no se pudo eliminar el usuario huérfano de Auth:", deleteError);
+        return { success: false, error: 'auth/cleanup-failed' };
+      }
+    }
+
+    // Devolvemos el código de error original para que la UI sepa qué pasó.
+    if (err.code) {
+      return { success: false, error: err.code };
+    }
+    
+    // Si el error no tiene .code (viene de Firestore), devolvemos nuestro código personalizado.
+    return { success: false, error: 'auth/profile-creation-failed' };
   }
 };
+
 
 /**
  * Inicia sesión de un usuario con email y contraseña.

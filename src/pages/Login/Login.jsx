@@ -11,7 +11,7 @@ const Login = () => {
   const {
     formData,
     setFormData,
-    error,
+    errors, 
     handleSignIn,
     handleSignUp,
     handleGoogleLogin 
@@ -45,14 +45,14 @@ const Login = () => {
               formData={formData}
               setFormData={setFormData}
               onSignUp={handleSignUp}
-              error={error}
+              errors={errors} // <-- CAMBIO 2: Se pasa el objeto 'errors'
             />
           ) : (
             <LoginForm
               formData={formData}
               setFormData={setFormData}
               onSignIn={handleSignIn}
-              error={error}
+              error={errors.form} // <-- CAMBIO 3: Le pasamos solo el error general al login
             />
           )}
         </div>
@@ -63,6 +63,8 @@ const Login = () => {
           <button className='btn-redesSociales' onClick={handleGoogleLogin}> 
             <FcGoogle size={33} />
           </button>
+          {/* Mostramos el error general aquí también para el login con google */}
+          {errors.form && !isRegistering && <div className="error-message">{errors.form}</div>}
         </div>
 
       </div>

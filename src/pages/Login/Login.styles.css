@@ -82,16 +82,6 @@ body {
   cursor: pointer;
 }
 
-.error-message{
-  color: #c71010;
-  text-align: center;
-  margin-top: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  animation: slideInUp 0.5s ease-out;
-}
-
-
 
 .btn-descubreEstilo {
   padding: 18px 20px;
@@ -176,7 +166,7 @@ body {
 
 
 .toggle-button-wrapper .register {
-  margin-top: 70px;
+  margin-top: 20px;
 }
 
 
@@ -246,4 +236,50 @@ div[role="alert"],
   text-align: center;
   margin-top: 10px;
   font-size: 14px;
+}
+
+/* ===== Estilos para Mensajes de Error de Validación (NUEVO Y MEJORADO) ===== */
+
+/* Estilo base para TODOS los mensajes de error */
+.error-message {
+  color: #ffb3b3; /* Un rojo más suave y legible sobre fondos oscuros */
+  text-align: center;
+  font-weight: 500;
+  padding: 10px;
+  margin: 10px auto 15px;
+  border-radius: 8px;
+  width: 80%; /* Para que coincida con el ancho de los inputs */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Estilo específico para el error GENERAL del formulario (el que viene del servidor) */
+.error-message.general-error {
+  background-color: rgba(255, 82, 82, 0.15); /* Fondo rojo muy translúcido */
+  border: 1px solid rgba(255, 82, 82, 0.4);
+}
+
+/* Estilo para los textos de error DEBAJO de cada input */
+.error-text {
+  color: #f39999;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: left;
+  /* Magia con los márgenes para que encaje perfectamente debajo del input */
+  margin: -15px auto 10px;
+  padding-left: 15%; /* Alineamos el texto con el borde del input */
+  width: 100%;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Pequeña animación para que los errores aparezcan suavemente */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
