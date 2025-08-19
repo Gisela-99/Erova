@@ -1,30 +1,32 @@
-// Fichero: navbar.constants.js
+// Fichero: src/shared/components/Navbar/navbar.constants.js
 
+import { ArmarioIcon } from '../Icons/ArmarioIcon';
+import { CalendarioIcon } from '../Icons/CalendarioIcon';
+import { ComunidadIcon } from '../Icons/ComunidadIcon';
+import { PerfilIcon } from '../Icons/PerfilIcon';
+import { PlusIcon } from '../Icons/PlusIcon';
+import { RobotIcon } from '../Icons/RobotIcon';
 
 export const NAV_ITEMS = [
   {
-    to: "/",
-    icon: "🏠",
-    label: "Inicio"
-  },
-  {
-    to: "/armario",
-    icon: "👕",
-    label: "Armario"
+    to: "/comunidad",
+    Icon: ComunidadIcon, 
   },
   {
     to: "/calendario",
-    icon: "📅",
-    label: "Calendario"
+    Icon: CalendarioIcon, 
   },
   {
-    to: "/comunidad",
-    icon: "🌐",
-    label: "Comunidad"
+    to: "/agregar-prenda",
+    Icon: ArmarioIcon,    
+    ActiveIcon: PlusIcon, 
+  },
+  {
+    to: "/asistente",
+    Icon: RobotIcon,      
   },
   {
     to: "/perfil",
-    icon: "👤",
-    label: "Perfil"
+    Icon: PerfilIcon,      
   }
 ];

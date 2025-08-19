@@ -8,6 +8,7 @@ import Preferences from '../pages/Preferences/Preferences';
 import UserMeasurents from '../pages/UserMeasurements/UserMeasurements.jsx';
 import BodyProfileSetup from '../pages/BodyProfileSetup/BodyProfileSetup';
 import Error404 from '../pages/Error404/Error404';
+import Asistente from '../pages/Asistente/Asistente.jsx';
 import Armario from '../pages/Armario/Armario';
 import Calendario from '../pages/Calendario/Calendario';
 import Comunidad from '../pages/Comunidad/Comunidad';
@@ -46,7 +47,8 @@ const Router = () => {
   
         <Route path="body-profile" element={<BodyProfileSetup />} />
         <Route path="user-measurements" element={<UserMeasurents />} />
-  
+        
+        <Route path="asistente" element={<Asistente />} />
         <Route path="agregar-prenda" element={<AgregarPrenda />} />
         <Route path="crear-outfit" element={<CrearOutfit />} />
         <Route path='clasificar-prenda' element={<ClasificarPrenda/>}></Route>
